@@ -18,6 +18,11 @@ CORS(app)
 PORT = 8080
 
 
+@app.route("/")
+def test():
+    return "working"
+
+
 @app.route("/invite_user", methods=['POST'])
 def user_invite():
     req = request.json
