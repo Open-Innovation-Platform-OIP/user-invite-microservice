@@ -25,6 +25,7 @@ def test():
 
 @app.route("/invite_user", methods=['POST'])
 def user_invite():
+    success = True
     req = request.json
 
     receiver_email = req["receiver_email"]
