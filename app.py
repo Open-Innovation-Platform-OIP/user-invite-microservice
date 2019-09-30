@@ -19,7 +19,7 @@ PORT = 8080
 
 
 @app.route("/invite_user", methods=['POST'])
-def user_invite(receiver_email, subject, message, success=True):
+def user_invite():
     req = request.json
 
     receiver_email = req["receiver_email"]
