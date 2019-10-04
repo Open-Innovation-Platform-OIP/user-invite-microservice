@@ -56,11 +56,11 @@ def user_invite():
     }
     users.append(user)
 
-    try:
-        graphqlClient.execute(user_insert_mutation, {
-            'objects': list(users)})
-    except:
-        pass
+    # try:
+    graphqlClient.execute(user_insert_mutation, {
+        'objects': list(users)})
+    # except:
+    #     pass
 
     success = True
     # req = request.json
