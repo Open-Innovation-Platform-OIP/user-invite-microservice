@@ -53,14 +53,15 @@ def user_invite():
     user = {
         "email": invitee_email,
         "is_approved": True,
-        "is_verified": True
+        "is_verified": True,
+        "password": "password",
+        "token": "token"
     }
     users.append(user)
 
     try:
         result = graphqlClient.execute(user_insert_mutation, {
             'objects': list(users)})
-        return result
 
     except:
         return "not work"
