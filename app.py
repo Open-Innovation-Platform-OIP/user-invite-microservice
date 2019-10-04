@@ -27,7 +27,7 @@ graphqlClient.inject_token(
 user_insert_mutation = '''
 mutation insert_users($objects: [users_insert_input!]! ) {
     insert_users(
-        objects:$objects
+        objects:$obj
     ) {
         returning {
             id
