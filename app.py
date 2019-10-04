@@ -31,6 +31,7 @@ mutation insert_users($objects: [users_insert_input!]! ) {
     ) {
         returning {
             id
+            blah
             
         }
     }
@@ -62,7 +63,7 @@ def user_invite():
         return "not ok"
 
     except:
-        return "not ok"
+        return "not work"
 
     success = True
     # req = request.json
