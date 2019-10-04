@@ -59,6 +59,8 @@ def user_invite():
     try:
         graphqlClient.execute(user_insert_mutation, {
             'objects': list(users)})
+        return "not ok"
+
     except:
         return "not ok"
 
