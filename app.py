@@ -27,11 +27,11 @@ graphqlClient.inject_token(
 user_insert_mutation = '''
 mutation insert_users($objects: [users_insert_input!]! ) {
     insert_users(
-        objects:$obj
+        objects:$objects
     ) {
         returning {
             id
-            blah
+            
             
         }
     }
@@ -58,9 +58,9 @@ def user_invite():
     users.append(user)
 
     try:
-        graphqlClient.execute(user_insert_mutation, {
+        result = graphqlClient.execute(user_insert_mutation, {
             'objects': list(users)})
-        # return "not ok"
+        return result
 
     except:
         return "not work"
