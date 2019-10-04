@@ -24,6 +24,20 @@ graphqlClient.inject_token(
     os.environ['HASURA_GRAPHQL_ADMIN_SECRET'], 'x-hasura-admin-secret')
 
 
+user_insert_mutation = '''
+mutation insert_users($objects: [users_insert_input!]! ) {
+    insert_users(
+        objects:$objects
+    ) {
+        returning {
+            id
+            
+        }
+    }
+}
+'''
+
+
 @app.route("/")
 def test():
     return "working"
@@ -31,9 +45,22 @@ def test():
 
 @app.route("/invite_user", methods=['POST'])
 def user_invite():
+    users = []
     req = request.json
     invitee_email = req["email"]
     is_admin = req["is_admin"]
+    user = {
+        "email": invitee_email,
+        "is_approved": True,
+        "is_verified": True
+    }
+    users.append(user)
+
+    try:
+        graphqlClient.execute(user_insert_mutation, {
+            'objects': list(users)})
+    except:
+        pass
 
     success = True
     # req = request.json
