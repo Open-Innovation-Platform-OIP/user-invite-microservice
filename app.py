@@ -67,6 +67,7 @@ def user_invite():
         return "not work"
 
     success = True
+    result = {"status": "worked"}
     # req = request.json
 
     # receiver_email = req["receiver_email"]
@@ -96,7 +97,7 @@ def user_invite():
 
     # return jsonify(result)
 
-    return "work"
+    return jsonify(result)
 
 
 if __name__ == "__main__":
