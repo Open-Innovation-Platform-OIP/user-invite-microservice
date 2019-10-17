@@ -65,7 +65,6 @@ def send_email(receiver_email, message, subject):
 @app.route("/invite_user", methods=['POST'])
 def user_invite():
     users = []
-    # success = True
 
     req = request.json
     invitee_email = req["email"]
@@ -93,27 +92,23 @@ def user_invite():
 
     send_email(invitee_email, message, subject)
 
-    # port = 465  # For SSL
-    # sender_email = "mail@jaaga.in"
-    # password = "mail@jaaga"
-    # dev_email = "labs@jaaga.in"
-    # msg = EmailMessage()
-    # msg['Subject'] = subject
-    # msg['From'] = sender_email
-    # msg.set_content(message)
-
-    # context = ssl.create_default_context()
-
-    # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-    #     server.login(sender_email, password)
-    #     if success:
-    #         msg['To'] = invitee_email
-    #         server.send_message(msg)
-    #     else:
-    #         msg['To'] = invitee_email + ',' + dev_email
-    #         server.send_message(msg)
-
     return {"message": "success"}, 201
+
+
+@app.route("/user_approved", methods=['POST'])
+def send_approval_confirmation():
+    req = request.json
+    receiver_email = req["email"]
+    message = "You have been approved to join open innovation platform.Login at https://oip-dev.dev.jaagalabs.com/auth/login"
+    subject = "User Approved"
+
+    try:
+
+        send_email(receiver_email, message, subject)
+    except:
+        return {"message": "could not send mail"}, 400
+
+    return {"message": "Email successfully sent"}, 200
 
 
 if __name__ == "__main__":
