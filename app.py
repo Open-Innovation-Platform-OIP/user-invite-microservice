@@ -64,13 +64,11 @@ def user_invite():
             'objects': list(users)})
 
     except:
-        return "not work"
+        return
 
     success = True
-    result = {"status": "worked"}
-    # req = request.json
+    result = {"message": "success"}
 
-    # receiver_email = req["receiver_email"]
     subject = "Invitation to join open innovation platform"
 
     message = "Go to this link https://oip-dev.dev.jaagalabs.com/auth/forgot?email="+invitee_email
@@ -97,7 +95,7 @@ def user_invite():
 
     # return jsonify(result)
 
-    return jsonify(result)
+    return {"message": "success"}, 201
 
 
 if __name__ == "__main__":
