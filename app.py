@@ -73,7 +73,7 @@ def user_invite():
     # receiver_email = req["receiver_email"]
     subject = "Invitation to join open innovation platform"
 
-    message = "Go to this link https://app.socialalpha.jaagalabs.com/auth/forgot?email="+invitee_email
+    message = "Go to this link https://oip-dev.dev.jaagalabs.com/auth/forgot?email="+invitee_email
 
     port = 465  # For SSL
     sender_email = "mail@jaaga.in"
