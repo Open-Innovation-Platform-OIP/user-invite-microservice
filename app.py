@@ -39,14 +39,34 @@ mutation insert_users($objects: [users_insert_input!]! ) {
 '''
 
 
-@app.route("/")
-def test():
-    return "working"
+def send_email(receiver_email, message, subject):
+    success = True
+    port = 465  # For SSL
+    sender_email = "mail@jaaga.in"
+    password = "mail@jaaga"
+    dev_email = "labs@jaaga.in"
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = sender_email
+    msg.set_content(message)
+
+    context = ssl.create_default_context()
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+        server.login(sender_email, password)
+        if success:
+            msg['To'] = receiver_email
+            server.send_message(msg)
+        else:
+            msg['To'] = receiver_email + ',' + dev_email
+            server.send_message(msg)
 
 
 @app.route("/invite_user", methods=['POST'])
 def user_invite():
     users = []
+    # success = True
+
     req = request.json
     invitee_email = req["email"]
     is_admin = req["is_admin"]
@@ -60,44 +80,42 @@ def user_invite():
     users.append(user)
 
     try:
-        result = graphqlClient.execute(user_insert_mutation, {
+
+        graphqlClient.execute(user_insert_mutation, {
             'objects': list(users)})
 
     except:
-        return
-
-    success = True
-    result = {"message": "success"}
+        return {"message": "Failed to create the user"}, 400
 
     subject = "Invitation to join open innovation platform"
 
     message = "Go to this link https://oip-dev.dev.jaagalabs.com/auth/forgot?email="+invitee_email
 
-    port = 465  # For SSL
-    sender_email = "mail@jaaga.in"
-    password = "mail@jaaga"
-    dev_email = "labs@jaaga.in"
-    msg = EmailMessage()
-    msg['Subject'] = subject
-    msg['From'] = sender_email
-    msg.set_content(message)
-    # Create a secure SSL context
-    context = ssl.create_default_context()
+    send_email(invitee_email, message, subject)
 
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
-        server.login(sender_email, password)
-        if success:
-            msg['To'] = invitee_email
-            server.send_message(msg)
-        else:
-            msg['To'] = invitee_email + ',' + dev_email
-            server.send_message(msg)
+    # port = 465  # For SSL
+    # sender_email = "mail@jaaga.in"
+    # password = "mail@jaaga"
+    # dev_email = "labs@jaaga.in"
+    # msg = EmailMessage()
+    # msg['Subject'] = subject
+    # msg['From'] = sender_email
+    # msg.set_content(message)
 
-    # return jsonify(result)
+    # context = ssl.create_default_context()
+
+    # with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+    #     server.login(sender_email, password)
+    #     if success:
+    #         msg['To'] = invitee_email
+    #         server.send_message(msg)
+    #     else:
+    #         msg['To'] = invitee_email + ',' + dev_email
+    #         server.send_message(msg)
 
     return {"message": "success"}, 201
 
 
 if __name__ == "__main__":
-    # app.run(debug=True)
+
     serve(app, listen='*:{}'.format(str(PORT)))
