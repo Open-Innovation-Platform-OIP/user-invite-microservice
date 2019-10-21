@@ -69,9 +69,13 @@ def user_invite():
     req = request.json
     invitee_email = req["email"]
     is_admin = req["is_admin"]
+    user_is_approved = False
+    if(is_admin):
+        user_is_approved = True
+
     user = {
         "email": invitee_email,
-        "is_approved": True,
+        "is_approved": user_is_approved,
         "is_verified": True,
         "password": "password",
         "token": "token"
