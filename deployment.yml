@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oip-invite
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: oip-invite
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oip-invite
+spec:
+  selector:
+    matchLabels:
+      app: oip-invite
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: oip-invite
+    spec:
+      containers:
+      - name: oip-invite
+        image: socialalphaoip/user-invite-microservice:dev
+        ports:
+        - containerPort: 8080
+        env:
+          - name: HASURA_GRAPHQL_URL
+            value: https://sa-dev.dev.jaagalabs.com/v1/graphql
+          - name: HASURA_GRAPHQL_ADMIN_SECRET
+            value: 1SocialAlpha
+---
