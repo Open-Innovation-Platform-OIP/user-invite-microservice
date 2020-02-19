@@ -8,10 +8,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - oip-invite-dev.k8s.jaagalabs.com
+    - oip-invite-dev.oip.dev.code-alpha.org
     secretName: oip-invite-dev-tls
   rules:  
-  - host: oip-invite-dev.k8s.jaagalabs.com
+  - host: oip-invite-dev.oip.dev.code-alpha.org
     http:
       paths:
       - backend:
